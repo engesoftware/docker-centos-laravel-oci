@@ -1,14 +1,9 @@
 FROM centos:7
 
-MAINTAINER Alex Alexandre <alex.junior@engesoftware.com.br>
-
-#
-# Import the Centos-6 RPM GPG key to prevent warnings and Add EPEL Repository
-#
-
+MAINTAINER Juliano Buzanello <juliano.buzanello@engesoftware.com.br>
 
 RUN yum -C install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-        http://rpms.famillecollet.com/enterprise/7/remi/x86_64/remi-release-7.6-2.el7.remi.noarch.rpm \
+        http://rpms.famillecollet.com/enterprise/7/remi/x86_64/remi-release-7.7-2.el7.remi.noarch.rpm \
     && rm -rf /var/cache/yum/* \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 /etc/pki/rpm-gpg/RPM-GPG-KEY-remi /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 
@@ -72,7 +67,7 @@ RUN echo 'export LD_LIBRARY_PATH="/usr/lib/oracle/12.1/client64/lib"' >> /root/.
 #
 RUN sed -i -e 's/#define HAVE_OCI8_DTRACE 1/\/\*#define HAVE_OCI8_DTRACE 1\*\//g' /usr/include/php/main/php_config.h
 RUN pecl channel-update pecl.php.net
-RUN echo 'instantclient,/usr/lib/oracle/12.1/client64/lib/' | pecl install oci8
+RUN echo 'instantclient,/usr/lib/oracle/12.1/client64/lib/' | pecl install oci8-2.2.0
 RUN echo 'extension=oci8.so' > /etc/php.d/20-oci8.ini
 
 #
